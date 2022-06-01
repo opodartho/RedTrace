@@ -24,10 +24,6 @@ class User < ApplicationRecord
     )
   end
 
-  def verify(otp, hop)
-    hop == ROTP::HOTP.new(otp_confirmation_token).verify(otp, hop)
-  end
-
   private
 
   def set_otp_confirmation_token

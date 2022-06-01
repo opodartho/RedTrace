@@ -1,6 +1,6 @@
 <h1>Verify OTP </h1>
-<%= form_for(@resource, url: verify_user_otp_path, html: { method: :post }) do |f| %>
-  <%= render "users/shared/error_messages", resource: @resource %>
+<%= form_for(@form, url: verify_user_otp_path, html: { method: :post }) do |f| %>
+  <%= render "users/shared/error_messages", resource: @form %>
 
   <%= f.hidden_field :msisdn %>
   <div class="field">

@@ -19,22 +19,14 @@ class Users::OtpController < ApplicationController
   end
 
   def verify_form
-    @resource = User.find_by(msisdn: params[:msisdn])
+    @form = Users::VerifyForm.new(msisdn: params[:msisdn])
   end
 
   def verify
-    @resource = User.find_by(msisdn: user_params[:msisdn])
-    if @resource.verify(user_params[:otp], 123123)
-      @resource.otp_confirmation_sent_at = nil
-
-      raw, hashed = Devise.token_generator.generate(User, :reset_password_token)
-      @resource.reset_password_token = hashed
-      @resource.reset_password_sent_at = Time.now.utc
-      @resource.save
-
-      redirect_to edit_user_password_path(reset_password_token: raw)
+    @form = Users::VerifyForm.new(verify_form_params)
+    if result = @form.submit
+      redirect_to edit_user_password_path(reset_password_token: result)
     else
-      flash[:notice] = 'Invalid OTP'
       render :verify_form, status: :unprocessable_entity
     end
   end
@@ -42,6 +34,10 @@ class Users::OtpController < ApplicationController
   private
 
   def user_params
-    params.require(:user).permit(:msisdn, :otp)
+    params.require(:user).permit(:msisdn)
+  end
+
+  def verify_form_params
+    params.require(:users_verify_form).permit(:msisdn, :otp)
   end
 end
