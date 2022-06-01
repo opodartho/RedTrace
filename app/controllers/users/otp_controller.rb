@@ -6,22 +6,15 @@ class Users::OtpController < ApplicationController
   end
 
   def fly
-    @resource = User.find_by(msisdn: user_params[:msisdn])
+    uso = Users::SendOtp.call(msisdn: user_params[:msisdn])
 
-    # find valid registered user
-    if @resource.nil?
+    if uso.errors.present?
+      error = uso.errors.first
       @resource = User.new
-      flash[:notice] = "Please use registered number"
-      return render(:new, status: 404)
-    end
 
-    if @resource.otp_confirmation_sent_at.nil? || @resource.otp_confirmation_sent_at + 20.seconds < Time.now.utc
-      @resource.otp_confirmation_sent_at= Time.now.utc
-      @resource.save
-      Rails.logger.debug(@resource.otp(@resource.hop))
-      redirect_to verify_form_user_otp_url(msisdn: @resource.msisdn)
+      render :new, status: error.type
     else
-      render :new, status: :unprocessable_entity, notice: "Please wait 20 seconds before resend otp."
+      redirect_to verify_form_user_otp_url(msisdn: user_params[:msisdn])
     end
   end
 
@@ -31,7 +24,7 @@ class Users::OtpController < ApplicationController
 
   def verify
     @resource = User.find_by(msisdn: user_params[:msisdn])
-    if @resource.verify(user_params[:otp], @resource.hop)
+    if @resource.verify(user_params[:otp], 123123)
       @resource.otp_confirmation_sent_at = nil
 
       raw, hashed = Devise.token_generator.generate(User, :reset_password_token)
@@ -41,7 +34,8 @@ class Users::OtpController < ApplicationController
 
       redirect_to edit_user_password_path(reset_password_token: raw)
     else
-      render :verify, status: :unprocessable_entity, notice: "Invalid OTP"
+      flash[:notice] = 'Invalid OTP'
+      render :verify_form, status: :unprocessable_entity
     end
   end
 

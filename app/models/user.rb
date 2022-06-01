@@ -1,5 +1,4 @@
 class User < ApplicationRecord
-  PICCHI_CONST = 61945
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   # devise :database_authenticatable, :registerable, :recoverable, :rememberable, :validatable
@@ -25,16 +24,8 @@ class User < ApplicationRecord
     )
   end
 
-  def otp(hop = 0)
-    ROTP::HOTP.new(otp_confirmation_token).at(hop)
-  end
-
   def verify(otp, hop)
     hop == ROTP::HOTP.new(otp_confirmation_token).verify(otp, hop)
-  end
-
-  def hop
-    otp_confirmation_sent_at.to_i - PICCHI_CONST
   end
 
   private
