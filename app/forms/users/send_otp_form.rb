@@ -20,7 +20,7 @@ module Users
         return false
       end
 
-      if user.otp_confirmation_sent_at + 20.seconds > Time.now.utc
+      if  !user.otp_confirmation_sent_at.nil? && (user.otp_confirmation_sent_at + 20.seconds).to_i > Time.now.utc.to_i
         errors.add(:base, :unprocessable_entity, message: 'Please wait 20 seconds before resend otp')
         return false
       end

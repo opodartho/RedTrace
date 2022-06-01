@@ -20,6 +20,13 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       resources :locations, only: %i[index]
+
+      namespace :users, as: :user do
+        resource :otp, controller: 'otp', only: [] do
+          post :send, to: 'otp#fly'
+          post :verify
+        end
+      end
     end
   end
   # Defines the root path route ("/")
