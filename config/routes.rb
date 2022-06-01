@@ -17,16 +17,16 @@ Rails.application.routes.draw do
 
   resources :locations
 
-  namespace :api do
+  namespace :api, defaults: { format: :json } do
     namespace :v1 do
       resources :locations, only: %i[index]
 
-      namespace :users, as: :user do
-        resource :otp, controller: 'otp', only: [] do
-          post :send, to: 'otp#fly'
-          post :verify
-        end
+      resource :otp, controller: 'otp', only: [] do
+        post :send, to: 'otp#fly'
+        post :verify
       end
+
+      resource :password, controller: 'passwords', only: %i[update]
     end
   end
   # Defines the root path route ("/")
