@@ -149,6 +149,8 @@ CREATE TABLE public.users (
     name character varying NOT NULL,
     msisdn character varying NOT NULL,
     encrypted_password character varying DEFAULT ''::character varying NOT NULL,
+    otp_confirmation_token character varying,
+    otp_confirmation_sent_at timestamp(6) without time zone,
     reset_password_token character varying,
     reset_password_sent_at timestamp(6) without time zone,
     remember_created_at timestamp(6) without time zone,

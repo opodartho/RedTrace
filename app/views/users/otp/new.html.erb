@@ -1,0 +1,12 @@
+<%= form_for(@resource, url: send_user_otp_path, html: { method: :post }) do |f| %>
+  <%= render "users/shared/error_messages", resource: @resource %>
+
+  <div class="field">
+    <%= f.label :msisdn %><br />
+    <%= f.text_field :msisdn, autofocus: true %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit "Send OTP" %>
+  </div>
+<% end %>

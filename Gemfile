@@ -13,6 +13,7 @@ gem 'pg'
 gem 'puma'
 gem 'rails'
 gem 'redis'
+gem 'rotp'
 gem 'sprockets-rails'
 gem 'stimulus-rails'
 gem 'turbo-rails'
@@ -31,6 +32,7 @@ group :development do
   gem 'rubocop-performance'
   gem 'rubocop-rails'
   gem 'web-console'
+  gem 'pry-rails'
 end
 
 group :test do

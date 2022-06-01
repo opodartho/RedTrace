@@ -17,7 +17,7 @@
 default: &default
   adapter: postgresql
   encoding: unicode
-  username: red_track
+  username: red_trace
   password: secret
   # For details on connection pooling, see Rails configuration guide
   # https://guides.rubyonrails.org/configuring.html#database-pooling
@@ -25,13 +25,13 @@ default: &default
 
 development:
   <<: *default
-  database: red_track_development
+  database: red_trace_development
 
   # The specified database role being used to connect to postgres.
   # To create additional roles in postgres see `$ createuser --help`.
   # When left blank, postgres will use the default role. This is
   # the same name as the operating system user running Rails.
-  #username: red_track
+  #username: red_trace
 
   # The password associated with the postgres role (username).
   #password:
@@ -59,7 +59,7 @@ development:
 # Do not set this db to the same as development or production.
 test:
   <<: *default
-  database: red_track_test
+  database: red_trace_test
 
 # As with config/credentials.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is
@@ -83,6 +83,6 @@ test:
 #
 production:
   <<: *default
-  database: red_track_production
-  username: red_track
-  password: <%= ENV["RED_TRACK_DATABASE_PASSWORD"] %>
+  database: red_trace_production
+  username: red_trace
+  password: <%= ENV["RED_TRACE_DATABASE_PASSWORD"] %>
