@@ -15,8 +15,8 @@ module Users
       user = User.find_by(msisdn: msisdn)
 
       verfied = ::VerifyOtp.call(
-        sent_at: user.otp_confirmation_sent_at,
-        token: user.otp_confirmation_token,
+        sent_at: user&.otp_confirmation_sent_at,
+        token: user&.otp_confirmation_token,
         otp: otp
       ).result
 

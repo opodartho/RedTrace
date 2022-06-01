@@ -2,19 +2,16 @@ class Users::OtpController < ApplicationController
   skip_before_action :authenticate_user!
 
   def new
-    @resource = User.new
+    @form = Users::SendOtpForm.new
   end
 
   def fly
-    uso = Users::SendOtp.call(msisdn: user_params[:msisdn])
+    @form = Users::SendOtpForm.new(send_otp_form_params)
 
-    if uso.errors.present?
-      error = uso.errors.first
-      @resource = User.new
-
-      render :new, status: error.type
+    if result = @form.submit
+      redirect_to verify_form_user_otp_url(result)
     else
-      redirect_to verify_form_user_otp_url(msisdn: user_params[:msisdn])
+      render :new, status: :unprocessable_entity
     end
   end
 
@@ -33,8 +30,8 @@ class Users::OtpController < ApplicationController
 
   private
 
-  def user_params
-    params.require(:user).permit(:msisdn)
+  def send_otp_form_params
+    params.require(:users_send_otp_form).permit(:msisdn)
   end
 
   def verify_form_params
