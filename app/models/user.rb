@@ -10,15 +10,15 @@ class User < ApplicationRecord
 
   # the authenticate method from devise documentation
   def self.authenticate(msisdn, password)
-    user = User.find_for_authentication(msisdn: msisdn)
+    user = User.find_for_authentication(msisdn:)
     user&.valid_password?(password) ? user : nil
   end
 
   def otp_confirmation_token
     ROTP::Base32.encode(
       Digest::MD5.hexdigest(
-        Devise.secret_key + self[:msisdn] + self[:otp_confirmation_token] + '_otp_verification' + self[:created_at].to_s
-      )
+        "#{Devise.secret_key}#{self[:msisdn]}#{self[:otp_confirmation_token]}_otp_verification#{self[:created_at]}",
+      ),
     )
   end
 

@@ -1,8 +1,9 @@
 class VerifyOtp < ApplicationService
   def initialize(params)
+    super(params)
     # set default sent_at otherwise app code might crash, it's set to -100.days
     # of current time so it won't give false positive
-    @sent_at = params[:sent_at] || Time.now.utc - 100.days
+    @sent_at = params[:sent_at] || (Time.now.utc - 100.days)
     @token = params[:token]
     @otp = params[:otp]
   end

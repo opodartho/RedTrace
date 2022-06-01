@@ -1,19 +1,19 @@
 class ApplicationService
   extend ActiveModel::Naming
 
-  PICCHI_CONST = 61945
+  PICCHI_CONST = 61_945
 
   attr_reader :result, :errors
 
   class << self
     ruby2_keywords def call(*args)
       new(*args).tap do |service|
-        service.instance_variable_set("@errors", ActiveModel::Errors.new(service))
-        service.instance_variable_set("@result", service.call)
+        service.instance_variable_set(:@errors, ActiveModel::Errors.new(service))
+        service.instance_variable_set(:@result, service.call)
       end
     end
 
-    def human_attribute_name(attr, options = {})
+    def human_attribute_name(attr, _options = {})
       attr
     end
 

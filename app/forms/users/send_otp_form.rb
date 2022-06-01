@@ -12,15 +12,15 @@ module Users
 
     def submit
       return false if invalid?
-      
+
       # find user
-      user = User.find_by(msisdn: msisdn)
+      user = User.find_by(msisdn:)
       if user.nil?
         errors.add(:base, :not_found, message: 'You have entered a unregistered number')
         return false
       end
 
-      if  !user.otp_confirmation_sent_at.nil? && (user.otp_confirmation_sent_at + 20.seconds).to_i > Time.now.utc.to_i
+      if !user.otp_confirmation_sent_at.nil? && (user.otp_confirmation_sent_at + 20.seconds).to_i > Time.now.utc.to_i
         errors.add(:base, :unprocessable_entity, message: 'Please wait 20 seconds before resend otp')
         return false
       end

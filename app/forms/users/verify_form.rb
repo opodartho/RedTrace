@@ -3,24 +3,21 @@ module Users
     include ActiveModel::Model
 
     attr_accessor :msisdn, :otp
-    validates :msisdn, :otp, presence: true
 
-    def initialize(params)
-      super(params)      
-    end
+    validates :msisdn, :otp, presence: true
 
     def submit
       return false if invalid?
 
-      user = User.find_by(msisdn: msisdn)
+      user = User.find_by(msisdn:)
 
       verfied = ::VerifyOtp.call(
         sent_at: user&.otp_confirmation_sent_at,
         token: user&.otp_confirmation_token,
-        otp: otp
+        otp:,
       ).result
 
-      if !verfied
+      unless verfied
         errors.add :base, :invalid, message: 'You have entered wrong OTP number'
         return false
       end

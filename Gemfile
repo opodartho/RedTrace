@@ -3,10 +3,10 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '3.1.1'
 
-gem 'devise'
-gem 'doorkeeper'
 gem 'bootsnap', require: false
 gem 'cssbundling-rails'
+gem 'devise'
+gem 'doorkeeper'
 gem 'jbuilder'
 gem 'jsbundling-rails'
 gem 'pg'
@@ -27,12 +27,12 @@ group :development, :test do
 end
 
 group :development do
+  gem 'pry-rails'
   gem 'rack-mini-profiler'
   gem 'rubocop'
   gem 'rubocop-performance'
   gem 'rubocop-rails'
   gem 'web-console'
-  gem 'pry-rails'
 end
 
 group :test do

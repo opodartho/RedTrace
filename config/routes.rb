@@ -3,7 +3,11 @@ Rails.application.routes.draw do
     skip_controllers :authorizations, :applications, :authorized_applications
   end
 
-  devise_for :users, controllers: { registrations: "users/registrations", passwords: "users/passwords" }
+  devise_for(
+    :users,
+    controllers: { registrations: 'users/registrations', passwords: 'users/passwords' },
+    path_names: { sign_in: :login },
+  )
 
   resources :users, only: [:index, :new, :create]
   namespace :users, as: :user do
@@ -30,5 +34,5 @@ Rails.application.routes.draw do
     end
   end
   # Defines the root path route ("/")
-  root "locations#index"
+  root 'locations#index'
 end

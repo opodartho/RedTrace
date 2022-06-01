@@ -6,7 +6,7 @@ module Api
       def fly
         @form = ::Users::SendOtpForm.new(send_params)
 
-        if result = @form.submit
+        if (result = @form.submit)
           render json: { msisdn: result }
         else
           render json: { errors: @form.errors }, status: :unprocessable_entity
@@ -15,7 +15,7 @@ module Api
 
       def verify
         @form = ::Users::VerifyForm.new(verify_params)
-        if result = @form.submit
+        if (result = @form.submit)
           render json: { reset_password_token: result }
         else
           render json: { errors: @form.errors }, status: :unprocessable_entity
