@@ -10,7 +10,7 @@ module Api
           if result = @form.submit
             render json: { msisdn: result }
           else
-            render json: { errors: @form.errors }
+            render json: { errors: @form.errors }, status: :unprocessable_entity
           end
         end
 
@@ -19,7 +19,7 @@ module Api
           if result = @form.submit
             render json: { reset_password_token: result }
           else
-            render json: { errors: @form.errors }
+            render json: { errors: @form.errors }, status: :unprocessable_entity
           end
         end
 
