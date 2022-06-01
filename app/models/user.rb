@@ -6,8 +6,6 @@ class User < ApplicationRecord
 
   has_many :locations, dependent: :destroy
 
-  attr_accessor :otp, :email
-
   before_create :set_otp_confirmation_token
 
   # the authenticate method from devise documentation
