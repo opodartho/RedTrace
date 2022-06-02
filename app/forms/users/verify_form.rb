@@ -22,6 +22,12 @@ module Users
         return false
       end
 
+      update_user(user)
+    end
+
+    private
+
+    def update_user(user)
       user.otp_confirmation_sent_at = nil
 
       raw, hashed = Devise.token_generator.generate(User, :reset_password_token)

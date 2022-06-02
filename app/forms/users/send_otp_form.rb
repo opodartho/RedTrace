@@ -20,16 +20,20 @@ module Users
         return false
       end
 
-      if !user.otp_confirmation_sent_at.nil? && (user.otp_confirmation_sent_at + 20.seconds).to_i > Time.now.utc.to_i
+      now = Time.now.utc
+      sent_at = user.otp_confirmation_sent_at
+      token = user.otp_confirmation_token
+
+      if !sent_at.nil? && (sent_at + 20.seconds).to_i > now.to_i
         errors.add(:base, :unprocessable_entity, message: 'Please wait 20 seconds before resend otp')
         return false
       end
 
-      user.update(otp_confirmation_sent_at: Time.now.utc)
+      user.update(otp_confirmation_sent_at: now)
 
       otp = GenerateOtp.call(
-        sent_at: user.otp_confirmation_sent_at,
-        token: user.otp_confirmation_token,
+        sent_at:,
+        token:,
       ).result
 
       Rails.logger.debug(otp)

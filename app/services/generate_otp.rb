@@ -1,6 +1,5 @@
 class GenerateOtp < ApplicationService
   def initialize(params)
-    super(params)
     @sent_at = params[:sent_at]
     @token = params[:token]
   end

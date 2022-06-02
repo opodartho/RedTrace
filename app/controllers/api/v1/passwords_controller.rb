@@ -4,32 +4,17 @@ module Api
       skip_before_action :doorkeeper_authorize!
 
       def update
-        client_app = Doorkeeper::Application.find_by(uid: params[:client_id])
-        return render(json: { error: 'Invalid client ID' }, status: :forbidden) unless client_app
+        @client_app = Doorkeeper::Application.find_by(uid: params[:client_id])
+        return render(json: { error: 'Invalid client ID' }, status: :forbidden) unless @client_app
 
-        user = User.reset_password_by_token(user_params)
+        @user = User.reset_password_by_token(user_params)
 
-        if user.errors.empty?
-          # create access token for the user, so the user won't need to login again after password reset
-          access_token = Doorkeeper::AccessToken.create(
-            resource_owner_id: user.id,
-            application_id: client_app.id,
-            refresh_token: generate_refresh_token,
-            expires_in: Doorkeeper.configuration.access_token_expires_in.to_i,
-            scopes: '',
-          )
-
+        if @user.errors.empty?
           # return json containing access token and refresh token
           # so that user won't need to call login API right after password reset
-          render(json: {
-                   access_token: access_token.token,
-                   token_type: 'Bearer',
-                   expires_in: access_token.expires_in,
-                   refresh_token: access_token.refresh_token,
-                   created_at: access_token.created_at.to_time.to_i,
-                 })
+          render json: logged_in_response
         else
-          render json: { errors: user.errors }, status: :unprocessable_entity
+          render json: { errors: @user.errors }, status: :unprocessable_entity
         end
       end
 
@@ -37,6 +22,27 @@ module Api
 
       def user_params
         params.permit(:reset_password_token, :password)
+      end
+
+      def logged_in_response
+        {
+          access_token: access_token.token,
+          token_type: 'Bearer',
+          expires_in: access_token.expires_in,
+          refresh_token: access_token.refresh_token,
+          created_at: access_token.created_at.to_time.to_i,
+        }
+      end
+
+      def access_token
+        # create access token for the user, so the user won't need to login again after password reset
+        Doorkeeper::AccessToken.create(
+          resource_owner_id: @user.id,
+          application_id: @client_app.id,
+          refresh_token: generate_refresh_token,
+          expires_in: Doorkeeper.configuration.access_token_expires_in.to_i,
+          scopes: '',
+        )
       end
 
       def generate_refresh_token
