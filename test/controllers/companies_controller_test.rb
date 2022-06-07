@@ -37,12 +37,4 @@ class CompaniesControllerTest < ActionDispatch::IntegrationTest
     patch company_url(@company), params: { company: { name: @company.name, subdomain: @company.subdomain } }
     assert_redirected_to company_url(@company)
   end
-
-  test "should destroy company" do
-    assert_difference("Company.count", -1) do
-      delete company_url(@company)
-    end
-
-    assert_redirected_to companies_url
-  end
 end

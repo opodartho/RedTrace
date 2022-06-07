@@ -1,7 +1,7 @@
 require_relative '../app/constraints/subdoamin_required.rb'
 
 Rails.application.routes.draw do
-  resources :companies
+  resources :companies, except: %i[delete]
 
   constraints(SubdomainRequired) do
     use_doorkeeper do

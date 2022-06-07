@@ -2,7 +2,7 @@ require "application_system_test_case"
 
 class CompaniesTest < ApplicationSystemTestCase
   setup do
-    @company = companies(:one)
+    @company = create(:company)
   end
 
   test "visiting the index" do
