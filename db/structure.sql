@@ -96,6 +96,7 @@ ALTER SEQUENCE public.locations_id_seq OWNED BY public.locations.id;
 
 CREATE TABLE public.oauth_access_tokens (
     id bigint NOT NULL,
+    company_id bigint NOT NULL,
     resource_owner_id bigint,
     application_id bigint NOT NULL,
     token character varying NOT NULL,
@@ -133,6 +134,7 @@ ALTER SEQUENCE public.oauth_access_tokens_id_seq OWNED BY public.oauth_access_to
 
 CREATE TABLE public.oauth_applications (
     id bigint NOT NULL,
+    company_id bigint NOT NULL,
     name character varying NOT NULL,
     uid character varying NOT NULL,
     secret character varying NOT NULL,
@@ -196,7 +198,7 @@ CREATE TABLE public.users (
     locked_at timestamp(6) without time zone,
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL,
-    company_id bigint DEFAULT 1 NOT NULL
+    company_id bigint NOT NULL
 );
 
 
@@ -325,6 +327,13 @@ CREATE INDEX index_oauth_access_tokens_on_application_id ON public.oauth_access_
 
 
 --
+-- Name: index_oauth_access_tokens_on_company_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_oauth_access_tokens_on_company_id ON public.oauth_access_tokens USING btree (company_id);
+
+
+--
 -- Name: index_oauth_access_tokens_on_refresh_token; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -343,6 +352,13 @@ CREATE INDEX index_oauth_access_tokens_on_resource_owner_id ON public.oauth_acce
 --
 
 CREATE UNIQUE INDEX index_oauth_access_tokens_on_token ON public.oauth_access_tokens USING btree (token);
+
+
+--
+-- Name: index_oauth_applications_on_company_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_oauth_applications_on_company_id ON public.oauth_applications USING btree (company_id);
 
 
 --
