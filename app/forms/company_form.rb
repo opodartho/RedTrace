@@ -1,6 +1,10 @@
 class CompanyForm
   include ActiveModel::Model
 
+  # TODO:
+  # MSISDN will be submitted in 01833xxxxxx format and need to save in
+  # 8801833xxxxxx format
+
   attr_accessor :name, :subdomain, :owner_name, :msisdn
 
   validates :name, :subdomain, :owner_name, :msisdn, presence: true
