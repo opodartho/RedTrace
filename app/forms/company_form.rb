@@ -30,5 +30,6 @@ class CompanyForm
       company = Company.create!(name: name, subdomain: subdomain)
       user = company.users.create!(name: owner_name, msisdn: msisdn)
     end
+    self
   end
 end

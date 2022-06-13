@@ -1,5 +1,13 @@
 Rails.application.routes.draw do
   constraints(subdomain: 'admin') do
+    devise_for(
+      :managers,
+      controllers: {
+        sessions: 'managers/sessions'
+      },
+      path_names: { sign_in: :login },
+    )
+
     scope module: :admin, as: :admin do
       resources :companies
       resources :locations
@@ -9,7 +17,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :companies, except: %i[delete]
+  resources :companies, controller: 'public/companies', only: %i[new create]
 
   constraints(SubdomainRequired) do
     use_doorkeeper do

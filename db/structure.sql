@@ -91,6 +91,46 @@ ALTER SEQUENCE public.locations_id_seq OWNED BY public.locations.id;
 
 
 --
+-- Name: managers; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.managers (
+    id bigint NOT NULL,
+    username character varying DEFAULT ''::character varying NOT NULL,
+    encrypted_password character varying DEFAULT ''::character varying NOT NULL,
+    remember_created_at timestamp(6) without time zone,
+    sign_in_count integer DEFAULT 0 NOT NULL,
+    current_sign_in_at timestamp(6) without time zone,
+    last_sign_in_at timestamp(6) without time zone,
+    current_sign_in_ip character varying,
+    last_sign_in_ip character varying,
+    failed_attempts integer DEFAULT 0 NOT NULL,
+    locked_at timestamp(6) without time zone,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: managers_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.managers_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: managers_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.managers_id_seq OWNED BY public.managers.id;
+
+
+--
 -- Name: oauth_access_tokens; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -236,6 +276,13 @@ ALTER TABLE ONLY public.locations ALTER COLUMN id SET DEFAULT nextval('public.lo
 
 
 --
+-- Name: managers id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.managers ALTER COLUMN id SET DEFAULT nextval('public.managers_id_seq'::regclass);
+
+
+--
 -- Name: oauth_access_tokens id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -281,6 +328,14 @@ ALTER TABLE ONLY public.locations
 
 
 --
+-- Name: managers managers_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.managers
+    ADD CONSTRAINT managers_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: oauth_access_tokens oauth_access_tokens_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -317,6 +372,13 @@ ALTER TABLE ONLY public.users
 --
 
 CREATE INDEX index_locations_on_latitude_and_longitude ON public.locations USING btree (latitude, longitude);
+
+
+--
+-- Name: index_managers_on_username; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_managers_on_username ON public.managers USING btree (username);
 
 
 --
@@ -409,6 +471,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20220529112251'),
 ('20220529214029'),
 ('20220602153455'),
-('20220602153733');
+('20220602153733'),
+('20220613161957');
 
 

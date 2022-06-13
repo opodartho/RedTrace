@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::Base
   set_current_tenant_through_filter
-  before_action :set_company_as_tenant
+  before_action :set_company_as_tenant, unless: -> { %w[admin].include?(request.subdomain) }
   before_action :authenticate_user!
   before_action :configure_permitted_parameters, if: :devise_controller?
 
