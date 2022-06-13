@@ -1,0 +1,8 @@
+div id="#{dom_id company}" 
+  p
+    strong Name:
+    = company.name
+  p
+    strong Subdomain:
+    = company.subdomain
+  = render(company.users)

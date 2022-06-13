@@ -1,0 +1,11 @@
+h1 Verify OTP
+= form_for(@form, url: verify_user_otp_path, html: { method: :post }) do |f|
+  = render "users/shared/error_messages", resource: @form
+  = f.hidden_field :msisdn
+  .field
+    = f.label :otp
+    br/
+    = f.text_field :otp, autofocus: true
+    br/
+  .actions
+    = f.submit "Submit"
