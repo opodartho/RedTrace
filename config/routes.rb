@@ -46,9 +46,9 @@ Rails.application.routes.draw do
       end
     end
 
-    get '/',  to: "dashboard#index"
+    root 'dashboard#index'
   end
 
   # Defines the root path route ("/")
-  root 'home#index'
+  root 'public/home#index', as: :public_root
 end

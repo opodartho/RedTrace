@@ -5,7 +5,9 @@ class ApplicationController < ActionController::Base
   before_action :configure_permitted_parameters, if: :devise_controller?
 
   def current_company
-    @current_company ||= Company.find_by(subdomain: request.subdomain)
+    @current_company ||= Company.find_by!(subdomain: request.subdomain)
+  rescue ActiveRecord::RecordNotFound
+    redirect_to public_root_url(subdomain: nil), allow_other_host: true
   end
 
   protected
