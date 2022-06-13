@@ -1,6 +1,14 @@
-require_relative '../app/constraints/subdoamin_required.rb'
-
 Rails.application.routes.draw do
+  constraints(subdomain: 'admin') do
+    scope module: :admin, as: :admin do
+      resources :companies
+      resources :locations
+      resources :users
+
+      root to: "companies#index", as: :admin_root
+    end
+  end
+
   resources :companies, except: %i[delete]
 
   constraints(SubdomainRequired) do
