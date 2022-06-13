@@ -9,12 +9,12 @@ module Users
     def submit
       return false if invalid?
 
-      user = User.find_by(msisdn: msisdn)
+      user = User.find_by(msisdn:)
 
       verfied = ::VerifyOtp.call(
         sent_at: user&.otp_confirmation_sent_at,
         token: user&.otp_confirmation_token,
-        otp: otp,
+        otp:,
       ).result
 
       unless verfied

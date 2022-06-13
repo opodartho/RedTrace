@@ -14,7 +14,7 @@ module Users
       return false if invalid?
 
       # find user
-      user = User.find_by(msisdn: msisdn)
+      user = User.find_by(msisdn:)
       if user.nil?
         errors.add(:base, :not_found, message: 'You have entered a unregistered number')
         return false
@@ -31,7 +31,7 @@ module Users
 
       otp = GenerateOtp.call(
         sent_at: now,
-        token: token,
+        token:,
       ).result
 
       user.update(otp_confirmation_sent_at: now)

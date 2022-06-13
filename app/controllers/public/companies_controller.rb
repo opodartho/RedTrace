@@ -1,6 +1,5 @@
 module Public
   class CompaniesController < ApplicationController
-
     def new
       @form = CompanyForm.new
     end
@@ -10,9 +9,10 @@ module Public
       @form = CompanyForm.new(company_params)
 
       if @form.submit
-        redirect_to public_root_url(subdomain: @form.subdomain), allow_other_host: true, notice: "Company was successfully created."
+        redirect_to public_root_url(subdomain: @form.subdomain), allow_other_host: true,
+                                                                 notice: 'Company was successfully created.'
       else
-        render :new, status: :unprocessable_entity  
+        render :new, status: :unprocessable_entity
       end
     end
 

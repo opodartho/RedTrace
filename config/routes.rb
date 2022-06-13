@@ -3,7 +3,7 @@ Rails.application.routes.draw do
     devise_for(
       :managers,
       controllers: {
-        sessions: 'managers/sessions'
+        sessions: 'managers/sessions',
       },
       path_names: { sign_in: :login },
     )
@@ -13,7 +13,7 @@ Rails.application.routes.draw do
       resources :locations
       resources :users
 
-      root to: "companies#index", as: :admin_root
+      root to: 'companies#index', as: :admin_root
     end
   end
 
