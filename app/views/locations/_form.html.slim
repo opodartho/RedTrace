@@ -1,17 +1,5 @@
-= form_with(model: location) do |form|
-  - if location.errors.any?
-    div style: "color: red" 
-      h2
-        = pluralize(location.errors.count, "error")
-        | prohibited this location from being saved:
-      ul
-        - location.errors.each do |error|
-          li= error.full_message
-  div
-    = form.label :longitude, style: "display: block"
-    = form.text_field :longitude
-  div
-    = form.label :latitude, style: "display: block"
-    = form.text_field :latitude
-  div
-    = form.submit
+= simple_form_for(location) do |form|
+  = form.input :longitude
+  = form.input :latitude
+
+  = form.submit
