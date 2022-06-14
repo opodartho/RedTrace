@@ -8,7 +8,6 @@ gem 'administrate'
 gem 'bootsnap', require: false
 gem 'cssbundling-rails'
 gem 'devise'
-gem 'devise_masquerade'
 gem 'doorkeeper'
 gem 'jbuilder'
 gem 'jsbundling-rails'
