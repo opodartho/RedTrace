@@ -46,3 +46,5 @@ bin/editor-test
 .DS_Store
 
 yarn-error.log
+
+spec/examples.txt

@@ -4,13 +4,16 @@ module Public
       @form = CompanyForm.new
     end
 
-    # POST /companies or /companies.json
+    # POST /companies
     def create
       @form = CompanyForm.new(company_params)
 
       if @form.submit
-        redirect_to public_root_url(subdomain: @form.subdomain), allow_other_host: true,
-                                                                 notice: 'Company was successfully created.'
+        redirect_to(
+          public_root_url(subdomain: @form.company.subdomain),
+          allow_other_host: true,
+          notice: 'Company was successfully created.'
+        )
       else
         render :new, status: :unprocessable_entity
       end
@@ -20,7 +23,7 @@ module Public
 
     # Only allow a list of trusted parameters through.
     def company_params
-      params.require(:company_form).permit(:name, :subdomain, :owner_name, :msisdn)
+      params.require(:company_form).permit(:terms_of_service, company_attributes: [:name, :subdomain], user_attributes: [:name, :msisdn])
     end
   end
 end

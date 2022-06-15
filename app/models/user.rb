@@ -9,6 +9,17 @@ class User < ApplicationRecord
 
   before_create :set_otp_confirmation_token
 
+  validates :name, :msisdn, presence: true
+
+  validates_uniqueness_to_tenant :msisdn
+
+  validates :msisdn, format: {
+    with: /\A(8801[3-9]\d{8})\z/i,
+    message: 'must be a valid msisdn',
+    if: -> { msisdn? },
+  }
+
+
   # the authenticate method from devise documentation
   def self.authenticate(msisdn, password)
     user = User.find_for_authentication(msisdn:)

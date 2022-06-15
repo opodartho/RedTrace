@@ -63,11 +63,11 @@ ALTER SEQUENCE public.companies_id_seq OWNED BY public.companies.id;
 
 CREATE TABLE public.locations (
     id bigint NOT NULL,
+    user_id bigint NOT NULL,
     longitude double precision NOT NULL,
     latitude double precision NOT NULL,
     created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL,
-    user_id integer NOT NULL
+    updated_at timestamp(6) without time zone NOT NULL
 );
 
 
@@ -220,6 +220,7 @@ CREATE TABLE public.schema_migrations (
 
 CREATE TABLE public.users (
     id bigint NOT NULL,
+    company_id bigint NOT NULL,
     name character varying NOT NULL,
     msisdn character varying NOT NULL,
     encrypted_password character varying DEFAULT ''::character varying NOT NULL,
@@ -237,8 +238,7 @@ CREATE TABLE public.users (
     unlock_token character varying,
     locked_at timestamp(6) without time zone,
     created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL,
-    company_id bigint NOT NULL
+    updated_at timestamp(6) without time zone NOT NULL
 );
 
 
@@ -375,6 +375,13 @@ CREATE INDEX index_locations_on_latitude_and_longitude ON public.locations USING
 
 
 --
+-- Name: index_locations_on_user_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_locations_on_user_id ON public.locations USING btree (user_id);
+
+
+--
 -- Name: index_managers_on_username; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -438,10 +445,10 @@ CREATE INDEX index_users_on_company_id ON public.users USING btree (company_id);
 
 
 --
--- Name: index_users_on_msisdn; Type: INDEX; Schema: public; Owner: -
+-- Name: index_users_on_msisdn_and_company_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE UNIQUE INDEX index_users_on_msisdn ON public.users USING btree (msisdn);
+CREATE UNIQUE INDEX index_users_on_msisdn_and_company_id ON public.users USING btree (msisdn, company_id);
 
 
 --
@@ -468,9 +475,7 @@ SET search_path TO "$user", public;
 INSERT INTO "schema_migrations" (version) VALUES
 ('20220529101737'),
 ('20220529102501'),
-('20220529112251'),
 ('20220529214029'),
-('20220602153455'),
 ('20220602153733'),
 ('20220613161957');
 

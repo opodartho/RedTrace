@@ -1,36 +1,41 @@
 class CompanyForm
   include ActiveModel::Model
 
-  # TODO: need to change below
-  # MSISDN will be submitted in 01833xxxxxx format and need to save in
-  # 8801833xxxxxx format
+  delegate :attributes=, to: :user, prefix: true
+  delegate :attributes=, to: :company, prefix: true
 
-  attr_accessor :name, :subdomain, :owner_name, :msisdn
+  attr_accessor :terms_of_service, :company, :user
 
-  validates :name, :subdomain, :owner_name, :msisdn, presence: true
-  validates :subdomain, format: {
-    with: /\A(^[A-Za-z0-9](?:[A-Za-z0-9\-]{0,61}[A-Za-z0-9])?$)\z/i,
-    message: 'must be a valid subdomain',
-  }
-  validates :msisdn, format: {
-    with: /\A(8801[3-9]\d{8})\z/i,
-    message: 'must be a valid msisdn',
-  }
+  validates :terms_of_service, acceptance: true
 
-  # delegate :attributes=, to: :person, prefix: true
+  validate :company_is_valid
+  validate :user_is_valid
 
   def initialize(params = {})
+    @company = Company.new
+    @user = User.new
     super(params)
+    @terms_of_service ||= false
   end
 
   def submit
     return false if invalid?
 
-    # Add transaction to create company and user
-    Company.transaction do
-      company = Company.create!(name:, subdomain:)
-      company.users.create!(name: owner_name, msisdn:)
-    end
-    self
+    company.users << user
+    company.save!
+  end
+
+  private
+
+  def company_is_valid
+    errors.merge!(company.errors) if company.invalid?
+  end
+
+  def user_is_valid
+
+    # Skiped company presence validation for user in this case
+    user.errors.delete(:company) if user.invalid?
+
+    errors.merge!(user.errors)
   end
 end
