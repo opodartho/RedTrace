@@ -19,7 +19,6 @@ class User < ApplicationRecord
     if: -> { msisdn? },
   }
 
-
   # the authenticate method from devise documentation
   def self.authenticate(msisdn, password)
     user = User.find_for_authentication(msisdn:)

@@ -41,7 +41,7 @@ Metrics/MethodLength:
 Metrics/BlockLength:
   Exclude:
     - 'config/**/*'
-    - 'test/**/*'
+    - 'spec/**/*'
   CountComments: false
   Max: 10
   IgnoredMethods:
@@ -183,6 +183,8 @@ Rails/I18nLocaleTexts:
   Description: 'Enforces use of I18n and locale files instead of locale specific strings.'
   StyleGuide: 'https://rails.rubystyle.guide/#locale-texts'
   Enabled: false
+Rails/FilePath:
+  EnforcedStyle: 'arguments'
 
 # Bundler Cops
 

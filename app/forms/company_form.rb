@@ -32,7 +32,6 @@ class CompanyForm
   end
 
   def user_is_valid
-
     # Skiped company presence validation for user in this case
     user.errors.delete(:company) if user.invalid?
 

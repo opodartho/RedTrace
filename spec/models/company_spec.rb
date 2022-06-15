@@ -15,10 +15,10 @@ RSpec.describe Company, type: :model do
     it 'is not valid without valid format' do
       subject.subdomain = '@subdomain'
       expect(subject).to be_invalid
-      
+
       subject.subdomain = 'subdomain-'
       expect(subject).to be_invalid
-      
+
       subject.subdomain = 'sub domain'
       expect(subject).to be_invalid
 

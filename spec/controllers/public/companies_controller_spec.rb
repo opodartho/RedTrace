@@ -8,8 +8,8 @@ RSpec.describe Public::CompaniesController do
           company_form: {
             terms_of_service: '0',
             company_attributes: attributes_for(:company),
-            user_attributes: attributes_for(:user)
-          }
+            user_attributes: attributes_for(:user),
+          },
         }
         post :create, params: invalid_param
 

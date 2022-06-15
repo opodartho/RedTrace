@@ -6,6 +6,6 @@ class Company < ApplicationRecord
   validates :subdomain, format: {
     with: /\A(^[A-Za-z0-9](?:[A-Za-z0-9\-]{0,61}[A-Za-z0-9])?$)\z/i,
     message: 'must be a valid subdomain',
-    if: -> { subdomain? }
+    if: -> { subdomain? },
   }
 end
