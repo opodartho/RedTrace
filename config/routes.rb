@@ -26,7 +26,7 @@ Rails.application.routes.draw do
 
     devise_for(
       :users,
-      controllers: { registrations: 'users/registrations', passwords: 'users/passwords' },
+      controllers: { passwords: 'users/passwords' },
       path_names: { sign_in: :login },
     )
 

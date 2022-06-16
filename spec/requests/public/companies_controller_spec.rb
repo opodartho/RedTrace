@@ -11,9 +11,10 @@ RSpec.describe Public::CompaniesController do
             user_attributes: attributes_for(:user),
           },
         }
-        post :create, params: invalid_param
+        post companies_url, params: invalid_param
 
-        expect(response).to render_template :new
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.body).to include 'New company'
       end
     end
   end
