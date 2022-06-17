@@ -59,4 +59,8 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   root 'public/home#index', as: :public_root
+
+  if Rails.env.development?
+    resources :sms, controller: 'develop/sms', only: [:index, :destroy]
+  end
 end

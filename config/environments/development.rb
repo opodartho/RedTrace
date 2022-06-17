@@ -72,4 +72,8 @@ Rails.application.configure do
 
   config.hosts << '.lvh.me'
   config.hosts << '.redtrace.internal'
+
+  config.after_initialize do
+    SmsClient.adapter = SmsAdapters::Local
+  end
 end

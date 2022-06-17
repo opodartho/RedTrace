@@ -9,6 +9,7 @@ gem 'bootsnap', require: false
 gem 'cssbundling-rails'
 gem 'devise'
 gem 'doorkeeper'
+gem 'faraday'
 gem 'jbuilder'
 gem 'jsbundling-rails'
 gem 'pg'

@@ -1,0 +1,15 @@
+.list-group.list-group-numbered
+  - @messages.each do |message|
+    div.list-group-item.list-group-item-action.list-group-striped
+      div.d-flex.w-100.justify-content-between
+        h5.mb-1 = message.to
+        small.text-muted
+          = link_to sm_path(message.id), class: 'link-danger', data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' } do
+            i.bi.bi-trash3
+
+      p.mb-1 = message.text
+      small = message.sent_at
+
+
+- if @messages.present?
+  = link_to 'Clear all', sm_path('all'), class: 'link-danger float-end link-unstyled', data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' }

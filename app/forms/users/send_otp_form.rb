@@ -36,7 +36,7 @@ module Users
 
       user.update(otp_confirmation_sent_at: now)
 
-      Rails.logger.debug(otp)
+      SmsClient.new.send_message(to: msisdn, text: I18n.t('otp.sms', otp:))
 
       msisdn
     end
