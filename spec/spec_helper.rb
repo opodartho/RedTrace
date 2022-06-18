@@ -15,7 +15,24 @@
 # See https://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 
 require 'simplecov'
-SimpleCov.start 'rails'
+require 'simplecov_json_formatter'
+SimpleCov.formatters = SimpleCov::Formatter::MultiFormatter.new([
+                                                                  SimpleCov::Formatter::HTMLFormatter,
+                                                                  SimpleCov::Formatter::JSONFormatter,
+                                                                ])
+
+if ENV.fetch('COVERAGE', false)
+  SimpleCov.start 'rails' do
+    add_filter '/spec/'
+    add_filter '/app/dashboards/'
+    add_filter '/app/controllers/admin/'
+    add_filter '/app/controllers/develop/'
+    add_filter '/app/channels/'
+    add_filter '/app/services/sms_adapters/'
+    add_filter '/app/jobs/'
+    add_filter '/app/mailers/'
+  end
+end
 
 RSpec.configure do |config|
   # rspec-expectations config goes here. You can use an alternate
