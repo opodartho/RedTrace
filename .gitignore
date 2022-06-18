@@ -48,3 +48,5 @@ bin/editor-test
 yarn-error.log
 
 spec/examples.txt
+
+coverage

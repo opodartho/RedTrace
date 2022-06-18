@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '3.1.1'
+ruby '3.1.0'
 
 gem 'acts_as_tenant'
 gem 'administrate'
@@ -48,5 +48,6 @@ group :test do
   gem 'capybara'
   gem 'selenium-webdriver'
   gem 'shoulda-matchers'
+  gem 'simplecov', require: false
   gem 'webdrivers'
 end
