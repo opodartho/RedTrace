@@ -86,7 +86,11 @@ GEM
     bindex (0.8.1)
     bootsnap (1.11.1)
       msgpack (~> 1.2)
+    brakeman (5.2.3)
     builder (3.2.4)
+    bundler-audit (0.9.1)
+      bundler (>= 1.2.0, < 3)
+      thor (~> 1.0)
     capybara (3.37.1)
       addressable
       matrix
@@ -192,6 +196,8 @@ GEM
       timeout
     nio4r (2.5.8)
     nokogiri (1.13.6-x86_64-darwin)
+      racc (~> 1.4)
+    nokogiri (1.13.6-x86_64-linux)
       racc (~> 1.4)
     orm_adapter (0.5.0)
     parallel (1.22.1)
@@ -364,11 +370,14 @@ GEM
 PLATFORMS
   x86_64-darwin-20
   x86_64-darwin-21
+  x86_64-linux
 
 DEPENDENCIES
   acts_as_tenant
   administrate
   bootsnap
+  brakeman
+  bundler-audit
   capybara
   cssbundling-rails
   debug
@@ -395,6 +404,7 @@ DEPENDENCIES
   shoulda-matchers
   simple_form
   simplecov
+  simplecov_json_formatter
   slim-rails
   sprockets-rails
   stimulus-rails
