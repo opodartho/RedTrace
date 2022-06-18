@@ -6,10 +6,10 @@ class Users::OtpController < ApplicationController
   end
 
   def fly
-    @form = Users::SendOtpForm.new(send_otp_form_params)
+    @form = Users::SendOtpForm.new(send_otp_form_params).submit
 
-    if (result = @form.submit)
-      redirect_to verify_form_user_otp_url(result)
+    if @form.errors.empty?
+      redirect_to verify_form_user_otp_url(@form.msisdn)
     else
       render :new, status: :unprocessable_entity
     end
@@ -20,9 +20,10 @@ class Users::OtpController < ApplicationController
   end
 
   def verify
-    @form = Users::VerifyForm.new(verify_form_params)
-    if (result = @form.submit)
-      redirect_to edit_user_password_path(reset_password_token: result)
+    @form = Users::VerifyForm.new(verify_form_params).submit
+
+    if @form.errors.empty?
+      redirect_to edit_user_password_path(reset_password_token: @form.reset_password_token_raw)
     else
       render :verify_form, status: :unprocessable_entity
     end

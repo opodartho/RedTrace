@@ -2,7 +2,7 @@ module Users
   class VerifyForm
     include ActiveModel::Model
 
-    attr_accessor :msisdn, :otp
+    attr_accessor :msisdn, :otp, :reset_password_token_raw
 
     validates :msisdn, :otp, presence: true
 
@@ -17,12 +17,11 @@ module Users
         otp:,
       ).result
 
-      unless verfied
-        errors.add :base, :invalid, message: 'You have entered wrong OTP number'
-        return false
-      end
+      errors.add :base, :invalid, message: 'You have entered wrong OTP number' unless verfied
 
-      update_user(user)
+      @reset_password_token_raw = update_user(user) if errors.empty?
+
+      self
     end
 
     private

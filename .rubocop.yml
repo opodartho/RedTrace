@@ -195,3 +195,6 @@ Bundler/OrderedGems:
 Lint/MissingSuper:
   Exclude:
     - 'app/services/**/*'
+Lint/AmbiguousBlockAssociation:
+  Exclude:
+    - 'spec/**/*'
