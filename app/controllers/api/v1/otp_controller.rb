@@ -4,19 +4,20 @@ module Api
       skip_before_action :doorkeeper_authorize!
 
       def fly
-        @form = ::Users::SendOtpForm.new(send_params)
+        @form = ::Users::SendOtpForm.new(send_params).submit
 
-        if (result = @form.submit)
-          render json: { msisdn: result }
+        if @form.errors.empty?
+          render json: { msisdn: @form.msisdn }
         else
           render json: { errors: @form.errors }, status: :unprocessable_entity
         end
       end
 
       def verify
-        @form = ::Users::VerifyForm.new(verify_params)
-        if (result = @form.submit)
-          render json: { reset_password_token: result }
+        @form = ::Users::VerifyForm.new(verify_params).submit
+
+        if @form.errors.empty?
+          render json: { reset_password_token: @form.reset_password_token_raw }
         else
           render json: { errors: @form.errors }, status: :unprocessable_entity
         end

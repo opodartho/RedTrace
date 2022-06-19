@@ -1,5 +1,6 @@
 class Company < ApplicationRecord
   has_many :users, dependent: :destroy
+  has_one :authorizer, class_name: 'Doorkeeper::Application', dependent: :destroy
 
   validates :name, presence: true
   validates :subdomain, presence: true, uniqueness: true
