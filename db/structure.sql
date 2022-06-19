@@ -63,6 +63,7 @@ ALTER SEQUENCE public.companies_id_seq OWNED BY public.companies.id;
 
 CREATE TABLE public.locations (
     id bigint NOT NULL,
+    company_id bigint NOT NULL,
     user_id bigint NOT NULL,
     longitude double precision NOT NULL,
     latitude double precision NOT NULL,
@@ -365,6 +366,13 @@ ALTER TABLE ONLY public.schema_migrations
 
 ALTER TABLE ONLY public.users
     ADD CONSTRAINT users_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: index_locations_on_company_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_locations_on_company_id ON public.locations USING btree (company_id);
 
 
 --

@@ -1,6 +1,7 @@
 class CreateLocations < ActiveRecord::Migration[7.0]
   def change
     create_table :locations do |t|
+      t.references :company, null: false, index: true
       t.references :user, null: false, index: true
       t.float :longitude, null: false
       t.float :latitude, null: false
