@@ -1,5 +1,5 @@
 class Location < ApplicationRecord
-  belongs_to :company
+  acts_as_tenant :company
   belongs_to :user
 
   validates :longitude, :latitude, presence: true
