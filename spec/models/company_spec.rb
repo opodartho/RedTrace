@@ -1,11 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe Company, type: :model do
-  subject { build(:company) }
+  subject(:company) { build(:company) }
 
   describe 'Validations' do
     it 'is valid with valid attributes' do
-      expect(subject).to be_valid
+      expect(company).to be_valid
     end
 
     it { is_expected.to validate_presence_of(:name) }
@@ -13,17 +13,17 @@ RSpec.describe Company, type: :model do
     it { is_expected.to validate_uniqueness_of(:subdomain) }
 
     it 'is not valid without valid format' do
-      subject.subdomain = '@subdomain'
-      expect(subject).to be_invalid
+      company.subdomain = '@subdomain'
+      expect(company).to be_invalid
 
-      subject.subdomain = 'subdomain-'
-      expect(subject).to be_invalid
+      company.subdomain = 'subdomain-'
+      expect(company).to be_invalid
 
-      subject.subdomain = 'sub domain'
-      expect(subject).to be_invalid
+      company.subdomain = 'sub domain'
+      expect(company).to be_invalid
 
-      subject.subdomain = 'sub-domain'
-      expect(subject).to be_valid
+      company.subdomain = 'sub-domain'
+      expect(company).to be_valid
     end
   end
 

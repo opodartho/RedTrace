@@ -2,8 +2,8 @@ require 'rails_helper'
 
 RSpec.describe CompanyForm do
   describe '#submit' do
-    context 'create new company and it\'s manager' do
-      it 'with valid params' do
+    context 'with valid params' do
+      it 'create new company and it\'s manager' do
         param = {
           terms_of_service: true,
           company_attributes: attributes_for(:company),
@@ -12,14 +12,14 @@ RSpec.describe CompanyForm do
         company_form = described_class.new(param)
 
         expect { company_form.submit }
-          .to change { Company.count }.by(1)
-          .and change { User.count }.by(1)
-          .and change { Doorkeeper::Application.count }.by(1)
+          .to change(Company, :count).by(1)
+          .and change(Company, :count).by(1)
+          .and change(Doorkeeper::Application, :count).by(1)
       end
     end
 
-    context 'return errors' do
-      it 'without agree to terms of service' do
+    context 'without agree to terms of service' do
+      it 'return errors' do
         invalid_param = {
           terms_of_service: false,
           company_attributes: attributes_for(:company),
@@ -29,8 +29,10 @@ RSpec.describe CompanyForm do
 
         expect(company_form).to be_invalid
       end
+    end
 
-      it 'without valid manager information' do
+    context 'without valid manager information' do
+      it 'return errors' do
         invalid_param = {
           terms_of_service: false,
           company_attributes: attributes_for(:company),

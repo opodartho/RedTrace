@@ -23,7 +23,7 @@ RSpec.describe Api::V1::OtpController do
 
         expect {
           post send_api_v1_otp_url(subdomain: company.subdomain), params:
-        }.to change { SmsClient.adapter.messages.size }.by(0)
+        }.not_to change { SmsClient.adapter.messages.size }
 
         expect(response).to have_http_status(:unprocessable_entity)
       end

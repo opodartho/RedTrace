@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'User sees locations' do
-  scenario 'entries of all' do
+  it 'entries of all' do
     user = create(:user)
 
     sign_in user

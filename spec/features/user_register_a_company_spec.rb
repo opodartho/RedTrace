@@ -1,7 +1,7 @@
 require 'rails_helper'
 
-RSpec.feature 'User register a company' do
-  scenario 'they see the page for password set' do
+RSpec.describe 'User register a company' do
+  it 'they see the page for password set' do
     company_name = 'Reddot'
     company_subdomain = 'reddot'
     company_manager_name = 'Zahidul Haque'

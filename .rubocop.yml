@@ -1,6 +1,7 @@
 require:
   - rubocop-performance
   - rubocop-rails
+  - rubocop-rspec
 
 AllCops:
   NewCops: enable
@@ -198,3 +199,10 @@ Lint/MissingSuper:
 Lint/AmbiguousBlockAssociation:
   Exclude:
     - 'spec/**/*'
+
+# RSpec Cops
+RSpec/ExampleLength:
+  Enabled: false
+
+RSpec/MultipleExpectations:
+  Enabled: false

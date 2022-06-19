@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Api::V1::LocationsController do
   describe 'GET /' do
-    context 'from authorized user' do
+    context 'with authorized user' do
       it 'return 200:ok' do
         user = create(:user)
         application = create(:application, company_id: user.company_id)

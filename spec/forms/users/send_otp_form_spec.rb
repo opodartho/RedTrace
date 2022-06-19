@@ -2,8 +2,8 @@ require 'rails_helper'
 
 RSpec.describe Users::SendOtpForm do
   describe '#submit' do
-    context 'sends otp' do
-      it 'with valid params' do
+    context 'with valid params' do
+      it 'sends otp' do
         user = create(:user)
 
         send_otp_form = described_class.new(msisdn: user.msisdn)
@@ -12,14 +12,16 @@ RSpec.describe Users::SendOtpForm do
       end
     end
 
-    context 'return errors' do
-      it 'with unregistered user' do
+    context 'with unregistered user' do
+      it 'return errors' do
         send_otp_form = described_class.new(msisdn: '8801833000000')
 
         expect { send_otp_form.submit }.to change { send_otp_form.errors.size }
       end
+    end
 
-      it 'resend otp within 20 seconds' do
+    context 'when resend otp within 20 seconds' do
+      it 'return errors' do
         user = create(:user)
 
         described_class.new(msisdn: user.msisdn).submit

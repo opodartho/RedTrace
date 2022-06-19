@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'User set his password' do
-  scenario 'they see their dashboard' do
+  it 'they see their dashboard' do
     user = create(:user)
     password = 'secret'
 
