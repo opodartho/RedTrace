@@ -13,7 +13,7 @@ Rails.application.routes.draw do
       resources :locations
       resources :users
 
-      root to: 'companies#index', as: :admin_root
+      root to: 'companies#index', as: :root
     end
   end
 
@@ -39,7 +39,7 @@ Rails.application.routes.draw do
         post :verify
       end
     end
-    resources :locations
+    resources :locations, only: %i[index]
 
     namespace :api, defaults: { format: :json } do
       namespace :v1 do
