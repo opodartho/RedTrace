@@ -11,7 +11,10 @@ RSpec.describe CompanyForm do
         }
         company_form = described_class.new(param)
 
-        expect { company_form.submit }.to change { Company.count }.by(1).and change { User.count }.by(1)
+        expect { company_form.submit }
+          .to change { Company.count }.by(1)
+          .and change { User.count }.by(1)
+          .and change { Doorkeeper::Application.count }.by(1)
       end
     end
 

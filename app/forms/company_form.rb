@@ -23,6 +23,8 @@ class CompanyForm
 
     company.users << user
     company.save!
+
+    Doorkeeper::Application.create(company_id: company.id, name: company.name, redirect_uri: '', scopes: '')
   end
 
   private
