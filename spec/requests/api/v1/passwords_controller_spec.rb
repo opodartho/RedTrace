@@ -10,7 +10,7 @@ RSpec.describe Api::V1::PasswordsController do
 
         params = {
           reset_password_token: raw,
-          password: "secret",
+          password: 'secret',
           client_id: application.uid,
           client_secret: application.secret,
         }
