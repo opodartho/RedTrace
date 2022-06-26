@@ -4,6 +4,6 @@ FactoryBot.define do
     user
     longitude { Faker::Address.longitude }
     latitude { Faker::Address.latitude }
-    tracked_at { Time.now }
+    tracked_at { Time.zone.now }
   end
 end

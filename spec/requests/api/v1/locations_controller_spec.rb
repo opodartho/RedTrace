@@ -28,9 +28,9 @@ RSpec.describe Api::V1::LocationsController do
 
         expect {
           post api_v1_locations_url(subdomain: user.company.subdomain),
-              headers: { Authorization: "Bearer #{token.token}" },
-              params: { location: attributes_for(:location) }
-        }.to change { Location.count }.by(1)
+               headers: { Authorization: "Bearer #{token.token}" },
+               params: { location: attributes_for(:location) }
+        }.to change(Location, :count).by(1)
 
         expect(response).to have_http_status(:created)
       end
@@ -42,9 +42,9 @@ RSpec.describe Api::V1::LocationsController do
 
         expect {
           post api_v1_locations_url(subdomain: user.company.subdomain),
-              headers: { Authorization: "Bearer #{token.token}" },
-              params: { location: attributes_for(:location, latitude: nil) }
-        }.to change { Location.count }.by(0)
+               headers: { Authorization: "Bearer #{token.token}" },
+               params: { location: attributes_for(:location, latitude: nil) }
+        }.not_to change(Location, :count)
 
         expect(response).to have_http_status(:unprocessable_entity)
       end
