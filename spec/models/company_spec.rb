@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Company, type: :model do
+RSpec.describe Company do
   subject(:company) { build(:company) }
 
   describe 'Validations' do

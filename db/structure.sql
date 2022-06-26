@@ -9,6 +9,20 @@ SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
 
+--
+-- Name: timescaledb; Type: EXTENSION; Schema: -; Owner: -
+--
+
+CREATE EXTENSION IF NOT EXISTS timescaledb WITH SCHEMA public;
+
+
+--
+-- Name: EXTENSION timescaledb; Type: COMMENT; Schema: -; Owner: -
+--
+
+COMMENT ON EXTENSION timescaledb IS 'Enables scalable inserts and complex queries for time-series data';
+
+
 SET default_tablespace = '';
 
 SET default_table_access_method = heap;
@@ -62,33 +76,14 @@ ALTER SEQUENCE public.companies_id_seq OWNED BY public.companies.id;
 --
 
 CREATE TABLE public.locations (
-    id bigint NOT NULL,
     company_id bigint NOT NULL,
     user_id bigint NOT NULL,
     longitude double precision NOT NULL,
     latitude double precision NOT NULL,
+    tracked_at timestamp without time zone NOT NULL,
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL
 );
-
-
---
--- Name: locations_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE public.locations_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: locations_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE public.locations_id_seq OWNED BY public.locations.id;
 
 
 --
@@ -270,13 +265,6 @@ ALTER TABLE ONLY public.companies ALTER COLUMN id SET DEFAULT nextval('public.co
 
 
 --
--- Name: locations id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.locations ALTER COLUMN id SET DEFAULT nextval('public.locations_id_seq'::regclass);
-
-
---
 -- Name: managers id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -318,14 +306,6 @@ ALTER TABLE ONLY public.ar_internal_metadata
 
 ALTER TABLE ONLY public.companies
     ADD CONSTRAINT companies_pkey PRIMARY KEY (id);
-
-
---
--- Name: locations locations_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.locations
-    ADD CONSTRAINT locations_pkey PRIMARY KEY (id);
 
 
 --
@@ -467,6 +447,27 @@ CREATE UNIQUE INDEX index_users_on_reset_password_token ON public.users USING bt
 
 
 --
+-- Name: locations_company_id_tracked_at; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX locations_company_id_tracked_at ON public.locations USING btree (company_id, tracked_at DESC);
+
+
+--
+-- Name: locations_tracked_at_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX locations_tracked_at_idx ON public.locations USING btree (tracked_at DESC);
+
+
+--
+-- Name: locations ts_insert_blocker; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER ts_insert_blocker BEFORE INSERT ON public.locations FOR EACH ROW EXECUTE FUNCTION _timescaledb_internal.insert_blocker();
+
+
+--
 -- Name: oauth_access_tokens fk_rails_732cb83ab7; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -484,7 +485,8 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20220529101737'),
 ('20220529102501'),
 ('20220529214029'),
-('20220602153733'),
-('20220613161957');
+('20220613161957'),
+('20220626042144'),
+('20220626042317');
 
 
