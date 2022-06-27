@@ -20,5 +20,24 @@ RSpec.describe Api::V1::PasswordsController do
         expect(response).to have_http_status(:success)
       end
     end
+
+    context 'set password unsuccessfully' do
+      it 'response with status unprocessable_entity' do
+        raw, hashed = Devise.token_generator.generate(User, :reset_password_token)
+        user = create(:user, reset_password_token: hashed, reset_password_sent_at: Time.now.utc)
+        application = create(:application, company_id: user.company_id)
+
+        invalid_params = {
+          reset_password_token: raw,
+          password: '',
+          client_id: application.uid,
+          client_secret: application.secret,
+        }
+
+        put api_v1_password_url(subdomain: user.company.subdomain), params: invalid_params
+
+        expect(response).to have_http_status(:unprocessable_entity)
+      end
+    end
   end
 end
