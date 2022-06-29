@@ -9,5 +9,9 @@ module Develop
       SmsAdapters::Local.clear_messages(params[:id])
       redirect_to sms_url, status: :see_other, notice: 'Successfully removed sms'
     end
+
+    def dummy
+      render json: { messages: 'This is a dummy message.' }
+    end
   end
 end
