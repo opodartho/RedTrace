@@ -25,6 +25,7 @@ development:
   username: <%= ENV["DB_USER"] %>
   password: <%= ENV["DB_PASS"] %>
   database: <%= ENV["DB_NAME"] %>
+  host: <%= ENV["HOST"] %>
   <<: *default
 
 test:
@@ -52,6 +53,7 @@ test:
 #
 production:
   <<: *default
-  database: red_trace_production
-  username: red_trace
-  password: <%= ENV["RED_TRACE_DATABASE_PASSWORD"] %>
+  username: <%= ENV["DB_USER"] %>
+  password: <%= ENV["DB_PASS"] %>
+  database: <%= ENV["DB_NAME"] %>
+  host: <%= ENV["HOST"] %>

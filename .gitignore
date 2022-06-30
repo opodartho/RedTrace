@@ -35,7 +35,7 @@
 
 /node_modules
 
-.env
+.env.example
 .env.test
 
 .idea
@@ -53,3 +53,5 @@ spec/examples.txt
 coverage
 
 /config/credentials/test.key
+/config/credentials/development.key
+/config/credentials/staging.key
