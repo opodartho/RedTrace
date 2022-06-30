@@ -44,6 +44,7 @@ Rails.application.routes.draw do
     namespace :api, defaults: { format: :json } do
       namespace :v1 do
         resources :locations, only: %i[index create]
+        resources :call_logs, only: %i[index create]
 
         resource :otp, controller: 'otp', only: [] do
           post :send, to: 'otp#fly'

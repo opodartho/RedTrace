@@ -40,6 +40,23 @@ CREATE TABLE public.ar_internal_metadata (
 
 
 --
+-- Name: call_logs; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.call_logs (
+    user_id bigint NOT NULL,
+    company_id bigint NOT NULL,
+    msisdn character varying NOT NULL,
+    call_type integer DEFAULT 0 NOT NULL,
+    duration integer NOT NULL,
+    start_time timestamp without time zone NOT NULL,
+    end_time timestamp without time zone NOT NULL,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
 -- Name: companies; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -349,6 +366,41 @@ ALTER TABLE ONLY public.users
 
 
 --
+-- Name: call_logs_company_id_start_time; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX call_logs_company_id_start_time ON public.call_logs USING btree (company_id, start_time DESC);
+
+
+--
+-- Name: call_logs_start_time_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX call_logs_start_time_idx ON public.call_logs USING btree (start_time DESC);
+
+
+--
+-- Name: call_logs_user_id_start_time; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX call_logs_user_id_start_time ON public.call_logs USING btree (user_id, start_time DESC);
+
+
+--
+-- Name: index_call_logs_on_company_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_call_logs_on_company_id ON public.call_logs USING btree (company_id);
+
+
+--
+-- Name: index_call_logs_on_user_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_call_logs_on_user_id ON public.call_logs USING btree (user_id);
+
+
+--
 -- Name: index_locations_on_company_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -461,6 +513,13 @@ CREATE INDEX locations_tracked_at_idx ON public.locations USING btree (tracked_a
 
 
 --
+-- Name: call_logs ts_insert_blocker; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER ts_insert_blocker BEFORE INSERT ON public.call_logs FOR EACH ROW EXECUTE FUNCTION _timescaledb_internal.insert_blocker();
+
+
+--
 -- Name: locations ts_insert_blocker; Type: TRIGGER; Schema: public; Owner: -
 --
 
@@ -487,6 +546,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20220529214029'),
 ('20220613161957'),
 ('20220626042144'),
-('20220626042317');
+('20220626042317'),
+('20220628094459');
 
 
