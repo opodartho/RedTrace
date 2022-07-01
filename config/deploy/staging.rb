@@ -1,15 +1,15 @@
 set :stage, :staging
-set :branch, :development
+set :branch, 'feature/capistrano-deployment'
 
-set :server_port, 3000
-set :server_port_ssl, 3443
+set :server_port, 80
+set :server_port_ssl, 443
 
 set :full_app_name, "#{fetch(:application)}_#{fetch(:stage)}"
 
 server '119.8.186.24', user: fetch(:deploy_user).to_s, roles: %w[app db], primary: true
 
 set :server_names, {
-  '119.8.186.24': '119.8.186.24',
+  '119.8.186.24': '*.redtrace.xyz',
 }
 
 set :deploy_to, "#{fetch(:deploy_path)}/#{fetch(:full_app_name)}"
