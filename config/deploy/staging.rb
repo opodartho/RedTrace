@@ -33,7 +33,7 @@ set :puma_worker_timeout, nil
 set :puma_init_active_record, false
 set :puma_preload_app, true
 set :puma_plugins, [:tmp_restart]
-set :nginx_disable_http, false
+set :nginx_disable_http, true
 set :nginx_http_limit_url, %w()
 set :allow_asset, true
 set :nginx_use_ssl, true

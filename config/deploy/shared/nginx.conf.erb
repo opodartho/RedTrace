@@ -53,7 +53,6 @@ server {
 server {
   server_name <%= fetch(:server_names).dig(host.hostname.to_sym) || host.hostname %>;
   listen <%= fetch(:server_port_ssl) %>;
-  root <%= fetch(:deploy_to) %>/current/public;
 
   real_ip_header proxy_protocol;
 
@@ -95,8 +94,8 @@ server {
   error_page 500 502 503 504 /500.html;
   client_max_body_size 4G;
   keepalive_timeout 60s;
-  ssl on;
-  ssl_certificate <%= fetch(:nginx_certificate_path) || fetch(:nginx_certificate_paths).dig(host.hostname.to_sym) %>;
-  ssl_certificate_key <%= fetch(:nginx_key_path) || fetch(:nginx_key_paths).dig(host.hostname.to_sym) %>;
+  ssl_certificate <%= fetch(:nginx_certificate_path) %>;
+  ssl_certificate_key <%= fetch(:nginx_key_path) %>;
+  ssl_protocols TLSv1.2; # Dropping SSLv3, ref: POODLE
 }
 <% end %>

@@ -7,6 +7,7 @@ gem 'acts_as_tenant'
 gem 'administrate'
 gem 'bootsnap', require: false
 gem 'cssbundling-rails'
+gem 'daemons'
 gem 'devise'
 gem 'doorkeeper'
 gem 'faraday'

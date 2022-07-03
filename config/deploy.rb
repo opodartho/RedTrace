@@ -23,7 +23,7 @@ set :keep_releases, 3
 set :bundle_binstubs, nil
 
 set :linked_files do
-  %W(config/application.yml config/database.yml config/credentials/#{fetch(:rails_env)}.yml.enc)
+  %W(config/application.yml config/database.yml config/credentials/#{fetch(:rails_env)}.key)
 end
 
 set(

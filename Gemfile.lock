@@ -124,6 +124,7 @@ GEM
     crass (1.0.6)
     cssbundling-rails (1.1.0)
       railties (>= 6.0.0)
+    daemons (1.4.1)
     datetime_picker_rails (0.0.7)
       momentjs-rails (>= 2.8.1)
     debug (1.5.0)
@@ -413,6 +414,7 @@ DEPENDENCIES
   capistrano-rbenv
   capybara
   cssbundling-rails
+  daemons
   debug
   devise
   doorkeeper
