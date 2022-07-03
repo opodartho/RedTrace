@@ -7,7 +7,6 @@ pidfile '<%= fetch(:puma_pid) %>'
 state_path '<%= fetch(:puma_state) %>'
 stdout_redirect '<%= fetch(:puma_access_log) %>', '<%= fetch(:puma_error_log) %>', true
 
-daemonize
 
 threads <%= fetch(:puma_threads).join(', ') %>
 
