@@ -6,6 +6,7 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable, :rememberable, :recoverable
 
   has_many :locations, dependent: :destroy
+  has_many :call_logs, dependent: :destroy
 
   before_create :set_otp_confirmation_token
 
