@@ -54,3 +54,4 @@ coverage
 
 /config/credentials/test.key
 /config/credentials/development.key
+/config/credentials/staging.key
