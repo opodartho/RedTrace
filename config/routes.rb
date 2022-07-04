@@ -61,10 +61,6 @@ Rails.application.routes.draw do
   root 'public/home#index', as: :public_root
 
   if Rails.env.development?
-    resources :sms, controller: 'develop/sms', only: [:index, :destroy] do
-      collection do
-        get :dummy
-      end
-    end
+    resources :sms, controller: 'develop/sms', only: [:index, :destroy]
   end
 end

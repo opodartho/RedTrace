@@ -132,7 +132,6 @@ ALTER SEQUENCE public.managers_id_seq OWNED BY public.managers.id;
 
 CREATE TABLE public.oauth_access_tokens (
     id bigint NOT NULL,
-    company_id bigint NOT NULL,
     resource_owner_id bigint,
     application_id bigint NOT NULL,
     token character varying NOT NULL,
@@ -381,13 +380,6 @@ CREATE UNIQUE INDEX index_managers_on_username ON public.managers USING btree (u
 --
 
 CREATE INDEX index_oauth_access_tokens_on_application_id ON public.oauth_access_tokens USING btree (application_id);
-
-
---
--- Name: index_oauth_access_tokens_on_company_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_oauth_access_tokens_on_company_id ON public.oauth_access_tokens USING btree (company_id);
 
 
 --
