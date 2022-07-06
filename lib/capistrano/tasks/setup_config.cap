@@ -1,8 +1,8 @@
 namespace :deploy do
   task :setup_config do
     on roles(:app) do
-      if test("[ -f #{shared_path}/config/log_rotation ]")
-        sudo "rm #{shared_path}/config/log_rotation"
+      unless test("[ -d #{shared_path}/config ]")
+        execute "mkdir -p #{shared_path}/config"
       end
 
       config_files = fetch(:config_files)

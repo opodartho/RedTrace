@@ -48,10 +48,12 @@ group :development do
 
 
   gem 'capistrano'
-  gem 'capistrano-bundler'
   gem 'capistrano-rails'
-  gem 'capistrano-rails-console'
   gem 'capistrano-rbenv'
+  gem 'capistrano3-puma'
+  gem 'capistrano-bundler'
+  gem 'capistrano-rails-console'
+  gem 'capistrano-logrotate'
 end
 
 group :test do

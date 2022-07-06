@@ -1,0 +1,12 @@
+namespace :deploy do
+  namespace :check do
+    task :upload_env_key do
+      on roles(:app), in: :sequence, wait: 10 do
+        unless test("[ -f #{shared_path}/config/credentials/#{fetch(:rails_env)}.key ]")
+          upload! "config/credentials/#{fetch(:rails_env)}.key", "#{shared_path}/config/credentials/#{fetch(:rails_env)}.key"
+          puts "Uploaded #{fetch(:rails_env)}.key "
+        end
+      end
+    end
+  end
+end

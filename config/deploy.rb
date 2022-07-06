@@ -1,13 +1,18 @@
 #
-# bundle exec cap staging deploy:setup_config
-# bundle exec cap staging deploy
+# bundle exec cap production deploy:setup_config
+# bundle exec cap production puma:config
+# bundle exec cap production puma:nginx_config
+# bundle exec cap production logrotate:config
+# bundle exec cap production puma:systemd:config
+# bundle exec cap production puma:systemd:enable
+# bundle exec cap production deploy
 #
 
 lock '3.17.0'
 
 set :application, 'redtrace'
 set :repo_url, 'git@github.com:opodartho/RedTrace.git'
-set :deploy_user, :deployer
+set :user, :deployer
 set :deploy_path, '/app'
 set :pty, true
 set :tmp_dir, "/tmp"
@@ -34,44 +39,22 @@ set(
 set(
   :config_files,
   %w(
-    nginx.conf
     application.yml.template
     database.yml.template
-    log_rotation
-    puma.rb
-    puma_init.sh
   )
 )
 
-set(:executable_config_files, %w(puma_init.sh))
-
-set(
-  :symlinks,
-  [
-    {
-      source: 'nginx.conf',
-      link: '/etc/nginx/sites-enabled/{{full_app_name}}.conf'
-    },
-    {
-      source: 'puma_init.sh',
-      link: '/etc/init.d/puma_{{full_app_name}}'
-    },
-    {
-      source: 'log_rotation',
-      link: '/etc/logrotate.d/{{full_app_name}}'
-    }
-  ]
-)
 
 
 namespace :deploy do
-  before :deploy, 'deploy:check_revision'
-  # before :deploy, "deploy:run_tests"
-  after 'deploy:symlink:shared', 'deploy:compile_assets_locally'
-  after :finishing, 'deploy:cleanup'
   before 'deploy:setup_config', 'nginx:remove_default_vhost'
   after 'deploy:setup_config', 'nginx:reload'
-  # after 'deploy:setup_config', 'monit:restart'
+
+  # before :deploy, 'deploy:check_revision'
+  before 'deploy:check:linked_files', 'deploy:check:upload_env_key'
+  after 'deploy:symlink:shared', 'deploy:compile_assets_locally'
+  after :finishing, 'deploy:cleanup'
   after 'deploy:publishing', 'deploy:push_deploy_tag'
-  after 'deploy:publishing', 'puma:restart'
+  # after 'deploy:publishing', 'puma:restart'
 end
+
