@@ -1,0 +1,10 @@
+
+namespace :puma do
+  desc "change ownership of puma logs"
+  task :log_ownership do
+    if test("[ -f #{shared_path}/log/ ]")
+        sudo "chown root:root /etc/logrotate.d/#{fetch(:application)}_#{fetch(:stage)}"
+      end
+  end
+end
+

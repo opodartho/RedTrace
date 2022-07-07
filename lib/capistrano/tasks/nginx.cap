@@ -1,0 +1,20 @@
+namespace :nginx do
+  %w(start stop restart reload).each do |task_name|
+    desc "#{task} Nginx"
+    task "force_#{task}" do
+      on roles(:web), in: :sequence, wait: 5 do
+        sudo "/usr/sbin/service nginx #{task_name}"
+      end
+    end
+  end
+
+  %w(start stop restart reload).each do |task_name|
+    desc "#{task} Nginx"
+    task task_name do
+      on roles(:web, select: :primary), in: :sequence, wait: 5 do
+        sudo "/usr/sbin/service nginx #{task_name}"
+      end
+    end
+  end
+end
+

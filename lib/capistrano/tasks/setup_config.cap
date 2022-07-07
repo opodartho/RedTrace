@@ -1,0 +1,17 @@
+namespace :deploy do
+  task :setup_config do
+    on roles(:app) do
+      unless test("[ -d #{shared_path}/config ]")
+        execute "mkdir -p #{shared_path}/config"
+      end
+
+      config_files = fetch(:config_files)
+      unless config_files.nil?
+        config_files.each do |file|
+          smart_template file
+        end
+      end
+    end
+  end
+end
+

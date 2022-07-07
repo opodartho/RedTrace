@@ -45,6 +45,15 @@ group :development do
   gem 'rubocop-rails'
   gem 'rubocop-rspec', require: false
   gem 'web-console'
+
+
+  gem 'capistrano'
+  gem 'capistrano-rails'
+  gem 'capistrano-rbenv'
+  gem 'capistrano3-puma'
+  gem 'capistrano-bundler'
+  gem 'capistrano-rails-console'
+  gem 'capistrano-logrotate'
 end
 
 group :test do
