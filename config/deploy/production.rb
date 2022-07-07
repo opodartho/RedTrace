@@ -2,7 +2,7 @@ set :stage, :production
 set :branch, 'feature/capistrano-deployment'
 
 set :full_app_name, "#{fetch(:application)}_#{fetch(:stage)}"
-server '119.8.186.24', user: fetch(:user).to_s, roles: %w[app db], primary: true
+server '119.8.186.24', user: fetch(:user).to_s, roles: %w[web app db], primary: true
 
 set :deploy_to, "#{fetch(:deploy_path)}/#{fetch(:full_app_name)}"
 
@@ -11,14 +11,14 @@ set :rails_env, :production
 # --------- Default Puma Configurable options -------------------------
 
 # set :puma_user, fetch(:user)
-set :puma_nginx, :app
+# set :puma_nginx, :web
 # set :puma_rackup, -> { File.join(current_path, 'config.ru') }
 # set :puma_state, "#{shared_path}/tmp/pids/puma.state"
 # set :puma_pid, "#{shared_path}/tmp/pids/puma.pid"
 # set :puma_bind, "unix://#{shared_path}/tmp/sockets/puma.sock"    #accept array for multi-bind
 # set :puma_control_app, false
 # set :puma_default_control_app, "unix://#{shared_path}/tmp/sockets/pumactl.sock"
-# set :puma_conf, "#{shared_path}/puma.rb"
+set :puma_conf, "#{shared_path}/config/puma.rb"
 # set :puma_access_log, "#{shared_path}/log/puma_access.log"
 # set :puma_error_log, "#{shared_path}/log/puma_error.log"
 # set :puma_role, :app
@@ -39,6 +39,10 @@ set :puma_workers, 4
 # set :puma_service_unit_env_file, nil
 # set :puma_service_unit_env_vars, []
 # set :puma_phased_restart, false
+set :puma_service_unit_env_vars, %w[
+  RBENV_ROOT=/usr/local/rbenv
+  RBENV_VERSION=3.1.0
+]
 
 
 # ------- Deafult nginx configurable options --------------

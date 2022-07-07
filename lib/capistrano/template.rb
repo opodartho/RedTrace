@@ -13,7 +13,7 @@ end
 def template_file(name)
   file = "config/deploy/#{fetch(:full_app_name)}/#{name}.erb"
   return file if File.exist?(file)
-  file = "config/deploy/shared/#{name}.erb"
+  file = "config/deploy/templates/#{name}.erb"
   return file if File.exist?(file)
   nil
 end

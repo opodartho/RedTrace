@@ -19,8 +19,8 @@ set :tmp_dir, "/tmp"
 
 set :rbenv_type, :system
 set :rbenv_ruby, '3.1.0'
-set :rbenv_prefix,
-    "RBENV_ROOT=#{fetch(:rbenv_path)} RBENV_VERSION=#{fetch(:rbenv_ruby)} #{fetch(:rbenv_path)}/bin/rbenv exec"
+# set :rbenv_prefix,
+#     "RBENV_ROOT=#{fetch(:rbenv_path)} RBENV_VERSION=#{fetch(:rbenv_ruby)} #{fetch(:rbenv_path)}/bin/rbenv exec"
 set :rbenv_map_bins, %w(rake gem bundle ruby rails)
 
 set :keep_releases, 3
@@ -39,22 +39,20 @@ set(
 set(
   :config_files,
   %w(
-    application.yml.template
-    database.yml.template
+    application.yml
+    database.yml
   )
 )
 
 
 
 namespace :deploy do
-  before 'deploy:setup_config', 'nginx:remove_default_vhost'
-  after 'deploy:setup_config', 'nginx:reload'
-
-  # before :deploy, 'deploy:check_revision'
+  Rake::Task["deploy:assets:precompile"].clear_actions
+  before :deploy, 'deploy:check_revision'
   before 'deploy:check:linked_files', 'deploy:check:upload_env_key'
   after 'deploy:symlink:shared', 'deploy:compile_assets_locally'
   after :finishing, 'deploy:cleanup'
   after 'deploy:publishing', 'deploy:push_deploy_tag'
-  # after 'deploy:publishing', 'puma:restart'
+  after 'puma:restart', 'nginx:restart'
 end
 
